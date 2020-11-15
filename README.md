@@ -1,2 +1,2 @@
 # sparse-SYK
-Sparse SYK project
+Sparse SYK project description.
