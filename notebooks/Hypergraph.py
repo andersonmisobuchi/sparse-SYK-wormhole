@@ -1,9 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import numpy as np
 from random import sample, seed
-import time
 
 # Return True if list x has repeated elements
 def duplicates(x):
@@ -46,15 +42,3 @@ def regular_hypergraph(N, k, q, random_seed):
     hypergraph = tuple(map(tuple, hypergraph)) # Convert to list
     
     return hypergraph
-
-# Auxiliary function to measue running time
-def convert(seconds): 
-    seconds = seconds % (24*3600) 
-    hour = seconds//3600
-    seconds %= 3600
-    minutes = seconds//60
-    seconds %= 60
-      
-    return '%dh:%02dmin:%02ds' % (hour, minutes, seconds) 
-
-
