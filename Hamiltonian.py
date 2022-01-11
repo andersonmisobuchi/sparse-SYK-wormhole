@@ -45,6 +45,25 @@ def hamiltonian_sparse(N, k, q, hyperedges, random_seed):
 
     return op_sum((op_product(majs[i] for i in idxs).scale(factor[idxs]) for idxs in hyperedges), nshow=k*N)
 
+# Define uncoupled Hamiltonian H_L + H_R
+def hamiltonian_uncoupled(N, k, q, hyperedges, random_seed):
+    
+    np.random.seed(random_seed)
+    # Use variance with convention J=1
+    p = k*N/binom(N, q)
+    couplings = np.sqrt( factorial(q-1) / (p * N**(q-1) * 2**q) )*np.random.randn(len(hyperedges))
+    factor = dict(zip(hyperedges, couplings))
+    majs = [majorana(i) for i in range(2*N)]
+    HL = op_sum((op_product(majs[i] for i in idxs).scale(factor[idxs]) for idxs in hyperedges), nshow=len(hyperedges))
+    HR = op_sum((op_product(majs[i+N] for i in idxs).scale(factor[idxs]) for idxs in hyperedges), nshow=len(hyperedges))
+    return op_sum([HL, HR])
+
+# H_int Hamiltonian
+def hamiltonian_int(N, k, q, mu):
+    majs = [majorana(i) for i in range(2*N)]
+    HI = op_sum((op_product([majs[i], majs[i+N]]) for i in range(N)), nshow=N).scale(1j*mu/2)
+    return HI
+
 def print_tex(H):
     # Clean expression for Hamiltonian output
     from IPython.display import display, Math
